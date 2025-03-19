@@ -11,7 +11,7 @@ export class Server {
                new CheckService(
                 ()=>{console.log('success')},
                 (error)=>{console.log(error)}
-               ).execute('http://localhost:3000/posts')
+               ).execute('https://google.com')
             }
         );
     }
