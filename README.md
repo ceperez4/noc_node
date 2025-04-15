@@ -8,6 +8,7 @@ PORT=3000
 MAILER_EMAIL=
 MAILER_SECRET_KEY=
 PROD=false
+MAILER_SERVICE=gmail
 
 ```
 3. Iniciar el protecto 
