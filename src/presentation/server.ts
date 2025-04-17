@@ -6,13 +6,22 @@ import { LogRepositoryImpl } from "../infrastructure/repositories/log-repository
 import { CronService } from "./cron/cron-service"
 import { EmailService } from "./email/email-service";
 import { MongoLogDatasource } from "../infrastructure/datasources/mongo-log.datasource";
+import { PostgresLogDatasource } from "../infrastructure/datasources/postgres-log.datasource";
+import { CheckServiceMultiple } from "../domain/use-cases/checks/check-service-multiple";
 
-const logRepository = new LogRepositoryImpl(
+const fsLogRepository = new LogRepositoryImpl(
     new FileSystemDataSource()
-    //new MongoLogDatasource()
-)
-const emailService = new EmailService();
+);
 
+const MongoLogRepository = new LogRepositoryImpl(
+    new MongoLogDatasource()
+);
+
+const PostgresLogRepository = new LogRepositoryImpl(
+    new PostgresLogDatasource()
+);
+
+const emailService = new EmailService();
 
 export class Server {
 
@@ -22,18 +31,18 @@ export class Server {
         //     emailService,
         //     fileSystemLogRepository
         // ).execute('emailexample@gmail.com')
-        
-        
-        // CronService.createJob(
-        //    '*/5 * * * * *',
-        //    ()=>{
-        //       new CheckService(
-        //         logRepository,
-        //        ()=>{console.log('success')},
-        //        (error)=>{console.log(error)}
-        //       ).execute('https://google.com')
-        //    }
-        // );
-        
+
+
+        CronService.createJob(
+            '*/5 * * * * *',
+            () => {
+                new CheckServiceMultiple(
+                    [fsLogRepository, MongoLogRepository, PostgresLogRepository],
+                    () => { console.log('success') },
+                    (error) => { console.log(error) }
+                ).execute('https://google.com')
+            }
+        );
+
     }
 }
