@@ -12,10 +12,9 @@ export class MongoDataBase{
             await mongoose.connect(mongoUrl,{
                 dbName
             });
-            console.log('mongo connected')
+            return true;
 
         } catch (error) {
-            console.log('mongo connection error');
             throw error;
         }
     }

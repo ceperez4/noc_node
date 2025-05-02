@@ -33,6 +33,7 @@ export class SendEmailLogs implements SendLogEmailUseCase{
                 origin: 'send-email-logs.ts'
             });
             this.logRepository.saveLog(log);
+            return false;
         }
         return true;
     };

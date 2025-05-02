@@ -35,13 +35,11 @@ export class LogEntity {
         if (!level) {
             throw new Error('Level is required')
         }
-        if (!createdAt) {
-            throw new Error('CreatedAt is required')
-        }
+  
         const log = new LogEntity({
             message,
             level,
-            createdAt,
+            createdAt: new Date(createdAt),
             origin
         })
         return log
@@ -58,9 +56,7 @@ export class LogEntity {
         if (!level) {
             throw new Error('Level is required')
         }
-        if (!createdAt) {
-            throw new Error('CreatedAt is required')
-        }
+
         const log = new LogEntity({
             message,
             level,
